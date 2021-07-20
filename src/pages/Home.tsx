@@ -1,11 +1,27 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+// import { useHistory } from 'react-router-dom';
+import firebase from 'firebase';
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 import googleIconImg from '../assets/images/google-icon.svg';
 
 import '../styles/auth.scss';
+import { Button } from '../components/Button';
+import { auth } from '../services/firebase';
 
 export function Home() {
+  // const history = useHistory();
+
+  function handleCreateRoom() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    auth.signInWithPopup(provider).then((result) => {
+      console.log(result);
+    });
+
+    // history.push('/rooms/new');
+  }
+
   return (
     <div id="page-auth">
       <aside>
@@ -16,7 +32,11 @@ export function Home() {
       <main>
         <div className="main-content">
           <img src={logoImg} alt="logo" />
-          <button type="button" className="create-room">
+          <button
+            type="button"
+            className="create-room"
+            onClick={handleCreateRoom}
+          >
             <img src={googleIconImg} alt="google" />
             Crie sua sala com o Google
           </button>
@@ -24,7 +44,7 @@ export function Home() {
           <form>
             <input type="text" placeholder="Digite o código da sala" />
 
-            <button type="submit">Entrar na sala</button>
+            <Button type="submit">Entrar na sala</Button>
           </form>
         </div>
       </main>
